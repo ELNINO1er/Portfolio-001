@@ -1,0 +1,315 @@
+/* =========================================================
+   ANIMATIONS DE TEXTE — d'après l'analyse image par image (10 i/s)
+   ========================================================= */
+
+/* ---------- Titres : mots qui montent depuis un masque ---------- */
+.words .wm {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* marge pour ne pas rogner accents et jambages une fois en place */
+  padding: 0.08em 0.03em 0.16em;
+  margin: -0.08em -0.03em -0.16em;
+}
+.words .w {
+  display: inline-block;
+  transform: translateY(88%);
+  opacity: 0.12;
+  filter: blur(5px);
+  transition: transform 1s cubic-bezier(0.19, 0.8, 0.22, 1), opacity 1s ease, filter 1s ease;
+  transition-delay: calc(var(--d0, 0ms) + var(--i) * 110ms);
+  will-change: transform;
+}
+.words.is-in .w {
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+
+/* ---------- Paragraphes : lignes qui montent depuis un masque ---------- */
+.lines .lw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.lines .lw > span {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+  transition: transform 0.95s cubic-bezier(0.19, 0.8, 0.22, 1), opacity 0.6s ease;
+  transition-delay: calc(var(--d0, 0ms) + var(--line, 0) * 130ms);
+}
+.lines.is-in .lw > span {
+  transform: none;
+  opacity: 1;
+}
+
+/* ---------- Badges : point → pilule → texte ---------- */
+.eyebrow--anim {
+  clip-path: inset(0 calc(50% - 14px) round 999px);
+  transform: scale(0.7);
+  transition: clip-path 0.9s cubic-bezier(0.7, 0, 0.2, 1) 0.25s, transform 0.5s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.eyebrow--anim .eyebrow__txt,
+.eyebrow--anim > svg {
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.5s ease 0.85s, transform 0.5s ease 0.85s;
+}
+.eyebrow--anim.is-in {
+  clip-path: inset(0 0 round 999px);
+  transform: none;
+}
+.eyebrow--anim.is-in .eyebrow__txt,
+.eyebrow--anim.is-in > svg {
+  opacity: 1;
+  transform: none;
+}
+.eyebrow__txt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =========================================================
+   LOGO ANIMÉ (préchargeur + footer)
+   point → anneau + disque → l'anneau s'ouvre, le disque devient
+   la marque orange « R » → lettres une à une, du gris au blanc
+   ========================================================= */
+.lm {
+  --s: 1; /* multiplicateur de vitesse */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32em;
+  color: #fff;
+  line-height: 1;
+}
+.lm__mark {
+  position: relative;
+  width: 1.45em;
+  height: 1.45em;
+  flex: none;
+}
+.lm__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.lm__ring {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 6;
+  stroke-dasharray: 100 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.lm__disc {
+  fill: #ff5a1f;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(1.47);
+}
+.lm__r {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 0.9em;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+.lm__word {
+  display: inline-flex;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  max-width: 12em;
+  padding: 0.1em 0;
+}
+.lm__l {
+  display: inline-block;
+}
+
+/* Animations (jouées dans le préchargeur, ou quand le footer entre à l'écran) */
+.preloader .lm__svg,
+.footer__logo .lm__svg {
+  animation: lm-grow calc(0.8s * var(--s)) cubic-bezier(0.3, 0, 0.2, 1) calc(0.15s * var(--s)) both;
+}
+.preloader .lm__ring,
+.footer__logo .lm__ring {
+  animation: lm-open calc(0.9s * var(--s)) cubic-bezier(0.6, 0, 0.3, 1) calc(0.95s * var(--s)) both;
+}
+.preloader .lm__disc,
+.footer__logo .lm__disc {
+  animation: lm-fill calc(0.8s * var(--s)) cubic-bezier(0.6, 0, 0.3, 1) calc(1.15s * var(--s)) both;
+}
+.preloader .lm__r,
+.footer__logo .lm__r {
+  animation: lm-r calc(0.6s * var(--s)) cubic-bezier(0.2, 1.3, 0.4, 1) calc(1.6s * var(--s)) both;
+}
+.preloader .lm__word,
+.footer__logo .lm__word {
+  animation: lm-word calc(1.3s * var(--s)) cubic-bezier(0.45, 0, 0.25, 1) calc(1.95s * var(--s)) both;
+}
+.preloader .lm__l,
+.footer__logo .lm__l {
+  animation: lm-letter calc(0.6s * var(--s)) ease calc((2.05s + var(--i) * 0.16s) * var(--s)) both;
+}
+.footer__logo .lm__l {
+  animation-delay: calc((1.95s + var(--i) * 0.05s) * var(--s));
+}
+/* footer : en pause (état initial) tant qu'il n'est pas visible */
+.footer__logo:not(.is-in) .lm * {
+  animation-play-state: paused;
+}
+
+@keyframes lm-grow {
+  from { transform: scale(0.1); }
+  to { transform: scale(1); }
+}
+@keyframes lm-open {
+  0% { stroke-dasharray: 100 0; transform: rotate(0deg); opacity: 1; }
+  60% { stroke-dasharray: 70 30; transform: rotate(160deg); opacity: 1; }
+  100% { stroke-dasharray: 0 100; transform: rotate(300deg); opacity: 0; }
+}
+@keyframes lm-fill {
+  0% { transform: scale(1); fill: #ffffff; }
+  45% { transform: scale(1.12); fill: #ffffff; }
+  100% { transform: scale(1.47); fill: #ff5a1f; }
+}
+@keyframes lm-r {
+  from { opacity: 0; transform: scale(0.4) rotate(-50deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes lm-word {
+  from { max-width: 0; }
+  to { max-width: 12em; }
+}
+@keyframes lm-letter {
+  0% { opacity: 0; color: #8a8a90; filter: blur(6px); transform: translateX(0.3em); }
+  55% { opacity: 0.6; color: #b4b4ba; filter: blur(1px); }
+  100% { opacity: 1; color: #fff; filter: none; transform: none; }
+}
+
+/* Taille préchargeur : bien visible */
+.lm--xl {
+  font-size: clamp(40px, 7vw, 76px);
+}
+.lm--xl .lm__word {
+  text-transform: uppercase;
+}
+
+/* Footer */
+.lm--footer {
+  --s: 0.75;
+  font-size: 20px;
+  color: var(--text);
+}
+.lm--footer .lm__word {
+  letter-spacing: -0.01em;
+}
+.lm--footer .lm__ring {
+  stroke: var(--text);
+}
+.footer__logo {
+  display: inline-block;
+}
+@keyframes lm-letter-footer {
+  from { opacity: 0; filter: blur(6px); transform: translateX(0.3em); }
+  to { opacity: 1; filter: none; transform: none; }
+}
+.footer__logo .lm__l {
+  animation-name: lm-letter-footer;
+}
+
+/* Préchargeur : timeline plus lente (≈ 4,5 s) */
+.preloader {
+  animation: pl-out 0.45s ease var(--fade-start) forwards;
+}
+.preloader__panel {
+  animation: pl-panel 0.75s cubic-bezier(0.7, 0, 0.25, 1) var(--panel-start) forwards;
+}
+
+/* ---------- Sans JS / mouvement réduit : état final ---------- */
+html:not(.js) .words .w,
+html:not(.js) .lines .lw > span {
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+html:not(.js) .eyebrow--anim,
+html:not(.js) .eyebrow--anim * {
+  clip-path: none;
+  opacity: 1;
+  transform: none;
+}
+html:not(.js) .lm *,
+html:not(.js) .lm {
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .words .w,
+  .lines .lw > span,
+  .eyebrow--anim,
+  .eyebrow--anim * {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
+  .lm,
+  .lm * {
+    animation: none !important;
+  }
+}
+
+.lm__image {
+  width: 78%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 22%;
+}
+
+.preloader__r-trace {
+  position: absolute;
+  width: clamp(66px, 11vw, 108px);
+  fill: none;
+  stroke: #fff;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: preloader-trace-out 0.3s ease 1.8s forwards;
+}
+
+.preloader__r-trace path {
+  stroke-dasharray: 1;
+  animation: preloader-draw-r 1s ease-in-out both;
+}
+
+.preloader .lm {
+  animation: preloader-brand-in 0.35s ease 1s both;
+}
+
+.hero__title .w {
+  color: var(--text);
+}
+
+@keyframes preloader-draw-r {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes preloader-trace-out {
+  to { opacity: 0; }
+}
+
+@keyframes preloader-brand-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

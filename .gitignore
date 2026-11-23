@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+
+# Outils locaux / fichiers temporaires
+.audit-temp/
+.playwright-mcp/
+.claude/
+__pycache__/
+*.log
+.env*
+.DS_Store
+Thumbs.db
