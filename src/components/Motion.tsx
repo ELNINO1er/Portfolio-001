@@ -28,7 +28,8 @@ export function RevealObserver() {
       const vh = window.innerHeight;
       stacks.forEach((el, i) => {
         el.style.zIndex = String(i + 1);
-        el.style.top = `${Math.min(0, vh - el.offsetHeight)}px`;
+        // Un `top` négatif n'a de sens qu'en sticky : en relative il décalerait la section vers le haut.
+        el.style.top = getComputedStyle(el).position === "sticky" ? `${Math.min(0, vh - el.offsetHeight)}px` : "";
       });
     };
     layoutStacks();

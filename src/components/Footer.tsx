@@ -3,6 +3,7 @@ import { profile } from "@/data/profile";
 import { getDict, navItems } from "@/data/ui";
 import { href, t, type Locale } from "@/lib/i18n";
 import { AbidjanClock } from "./AbidjanClock";
+import { FooterQuickContact } from "./FooterQuickContact";
 import { LogoMark } from "./LogoMark";
 import { GitHub, LinkedIn, Mail, Shop, WhatsApp } from "./Icons";
 
@@ -88,14 +89,14 @@ export function Footer({ locale }: { locale: Locale }) {
 
         <div className="footer__mid reveal" style={{ ["--d" as string]: "200ms" }}>
           <p className="footer__sig">{t(profile.signature, locale)}</p>
-          <AbidjanClock label={d.footer.time} locale={locale} />
+          <FooterQuickContact locale={locale} />
         </div>
 
         <div className="footer__bottom">
           <span>
             © {new Date().getFullYear()} {profile.name} · {profile.brand}. {d.footer.rights}
           </span>
-          <span>{profile.domain}</span>
+          <AbidjanClock label={d.footer.time} locale={locale} />
         </div>
       </div>
     </footer>

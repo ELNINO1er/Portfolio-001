@@ -313,3 +313,158 @@ html:not(.js) .lm {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+
+/* =========================================================
+   ÉLÉMENTS AJOUTÉS APRÈS AUDIT DE LA VIDÉO
+   ========================================================= */
+
+/* Note sous la barre de saisie du playground */
+.prompt__note {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--faint);
+}
+.playground .prompt__note {
+  opacity: 0;
+  transition: opacity 0.7s ease 1.7s;
+}
+.playground.is-in .prompt__note {
+  opacity: 1;
+}
+
+/* Badge double de l'intro : pilule sombre + libellé (comme « What is? / How it works? ») */
+.seg {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  margin-bottom: 18px;
+  clip-path: inset(0 calc(50% - 14px) round 999px);
+  transition: clip-path 0.9s cubic-bezier(0.7, 0, 0.2, 1) 0.25s;
+}
+.seg.is-in {
+  clip-path: inset(0 0 round 999px);
+}
+.seg__on,
+.seg__off {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 8px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.85s, background 0.2s, color 0.2s;
+}
+.seg__on {
+  background: var(--invert-bg);
+  color: var(--invert-text);
+}
+.seg__off {
+  padding-left: 12px;
+  color: var(--text-2);
+}
+.seg__off:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+.seg.is-in .seg__on,
+.seg.is-in .seg__off {
+  opacity: 1;
+}
+
+/* Rangée email du footer */
+.quick {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.quick__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  max-width: 300px;
+  line-height: 1.35;
+}
+.quick__field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: min(340px, 100%);
+  padding: 5px 5px 5px 18px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.quick__field:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.quick__field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  padding: 8px 0;
+  outline: none;
+}
+.quick__field input::placeholder {
+  color: var(--faint);
+}
+.quick__btn {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border: 0;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--invert-bg);
+  color: var(--invert-text);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.quick__btn:hover {
+  transform: translateX(2px);
+}
+@media (min-width: 861px) {
+  .quick {
+    flex-wrap: nowrap;
+  }
+}
+@media (max-width: 860px) {
+  .quick {
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .quick__field {
+    width: 100%;
+  }
+}
+
+html:not(.js) .seg,
+html:not(.js) .seg * ,
+html:not(.js) .playground .prompt__note {
+  clip-path: none;
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .seg,
+  .seg *,
+  .playground .prompt__note {
+    clip-path: none !important;
+    opacity: 1 !important;
+  }
+}

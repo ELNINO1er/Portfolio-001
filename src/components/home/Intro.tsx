@@ -40,7 +40,15 @@ export function Intro({ locale }: { locale: Locale }) {
       <div className="container">
         <div className="section-head">
           <div className="reveal">
-            <Eyebrow dark>{d.intro.eyebrow}</Eyebrow>
+            <span className="seg" data-inview>
+              <span className="seg__on">
+                <span className="eyebrow__dot" aria-hidden="true" />
+                {d.intro.eyebrow}
+              </span>
+              <a className="seg__off" href="#pillars-title">
+                {d.pillars.eyebrow}
+              </a>
+            </span>
           </div>
           <Words id="intro-title" text={introHead} delay={120} />
         </div>

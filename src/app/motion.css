@@ -201,7 +201,8 @@ html.is-loading body {
 
 /* ---------- Globe épinglé ---------- */
 .globe-sec {
-  position: relative;
+  /* sticky (empilement) — surtout pas relative : le `top` négatif la ferait remonter sur le bento */
+  position: sticky;
   height: 230vh;
   padding: 0;
   overflow: visible;

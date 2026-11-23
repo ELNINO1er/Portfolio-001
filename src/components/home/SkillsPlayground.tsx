@@ -96,6 +96,7 @@ export function SkillsPlayground({ locale }: { locale: Locale }) {
           <span className="sr-only">{d.skills.send}</span>
         </button>
       </form>
+      <p className="prompt__note">{d.skills.note}</p>
     </div>
   );
 }

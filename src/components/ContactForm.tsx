@@ -20,8 +20,15 @@ export function ContactForm({ locale }: { locale: Locale }) {
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
-    const msg = new URLSearchParams(window.location.search).get("message");
-    if (msg) setValues((v) => ({ ...v, message: msg.slice(0, 2000) }));
+    const params = new URLSearchParams(window.location.search);
+    const msg = params.get("message");
+    const email = params.get("email");
+    if (msg || email)
+      setValues((v) => ({
+        ...v,
+        message: msg ? msg.slice(0, 2000) : v.message,
+        email: email ? email.slice(0, 200) : v.email,
+      }));
   }, []);
 
   const set = (k: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
